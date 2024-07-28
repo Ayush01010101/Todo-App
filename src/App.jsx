@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import { v4 as uuidv4 } from 'uuid';
+
 
 
 
@@ -26,7 +28,10 @@ function App() {
     settodo("")
     
 
+  const toogleline=()=>{
 
+    
+  }
 
 
   
@@ -70,7 +75,7 @@ function App() {
         {todos.map((e)=>{
 
         return <div className="task p-3 border mt-5 w-3/4 flex justify-between rounded-2xl">
-          <input type="checkbox"/>
+          <input type="checkbox" onChange={toogleline} />
           <span className={e.isComplete?"line-through":""}>{e.todo}</span>
           
 
