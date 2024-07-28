@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { v4 as uuidv4 } from 'uuid';
+
 
 
 
@@ -11,6 +12,11 @@ function App() {
   const [count, setCount] = useState(0)
   const [todo,settodo]=useState("")
   const [todos,settodos]=useState([])
+
+
+
+
+
 
 
   const handleinput=(e)=>{
@@ -23,19 +29,54 @@ function App() {
       return false
     }
 
-    settodos([...todos,{todo,isComplete:false}]) 
+    settodos([...todos,{todo,id:uuidv4(),isComplete:false}]) 
 
     settodo("")
     
+    
 
-  const toogleline=()=>{
 
+
+
+  }
+
+  const  handlecheckbox=(iden)=>{
+    let a=iden.target.name;
+    const result=todos.forEach((item,index)=>{
+      if(item.id==a){
+        if(item.isComplete){
+          item.isComplete=false
+          
+          setCount(count+1)
+          
+          
+        }
+        else{
+          
+          setCount(count+1)
+          item.isComplete=true
+        }
+        // console.log(item.isComplete)
+        return index; 
+        
+        
+      }
+
+
+      
+
+    })
+    
     
   }
 
 
+
+const handledelete=(e,id)=>{
+
   
 
+}
 
 
 
@@ -43,7 +84,8 @@ function App() {
 
 
 
-  }
+
+
   return (
     <div className="div  h-screen flex flex-col">
       
@@ -74,15 +116,15 @@ function App() {
 
         {todos.map((e)=>{
 
-        return <div className="task p-3 border mt-5 w-3/4 flex justify-between rounded-2xl">
-          <input type="checkbox" onChange={toogleline} />
+        return <div key={e.id} className="task p-3 border mt-5 w-3/4 flex justify-between rounded-2xl">
+          <input name={e.id} type="checkbox" onChange={handlecheckbox} />
           <span className={e.isComplete?"line-through":""}>{e.todo}</span>
           
 
 
           <div className="function space-x-4">
           <button className='py-1 bg-blue-300 rounded-2xl px-2'>Edit</button>
-          <button className='py-1 bg-blue-300 rounded-2xl px-2'>Delete</button>
+          <button className='py-1 bg-blue-300 rounded-2xl px-2' name={e.id} onClick={(item)=>handledelete(item,e.id)}>Delete</button>
 
           </div>
         </div>
