@@ -1,34 +1,91 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+
+
+
 
 function App() {
   const [count, setCount] = useState(0)
+  const [todo,settodo]=useState("")
+  const [todos,settodos]=useState([])
 
+
+  const handleinput=(e)=>{
+    settodo(e.target.value)
+
+  }
+  const handleadd=()=>{
+   
+    if(todo==""){
+      return false
+    }
+
+    settodos([...todos,{todo,isComplete:false}]) 
+
+    settodo("")
+    
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  }
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="div  h-screen flex flex-col">
+      
+    
+      <nav className='p-6 bg-stone-400 flex justify-center'>
+          <div className="todo text-white">
+            <h1 className='font-bold text-2xl tracking-widest'>TODO</h1>
+          </div>
+
+      </nav>
+     
+
+      <div className="container min-h-96 w-[70%] mx-auto mt-7  rounded-3xl bg-white p-6 flex flex-col items-center">
+
+
+
+        <div className="addder flex gap-5 ">
+
+        <input onChange={handleinput} value={todo} type="text" className='bg-transparent w-80 border-2  font-light rounded-xl ' />
+
+        <button onClick={handleadd} className='bg-red-500 rounded-lg p-1 font-bold text-white'>Add</button>
+          
+        </div>
+
+
+
+        {/* task */}
+
+        {todos.map((e)=>{
+
+        return <div className="task p-3 border mt-5 w-3/4 flex justify-between rounded-2xl">
+          <input type="checkbox"/>
+          <span className={e.isComplete?"line-through":""}>{e.todo}</span>
+          
+
+
+          <div className="function space-x-4">
+          <button className='py-1 bg-blue-300 rounded-2xl px-2'>Edit</button>
+          <button className='py-1 bg-blue-300 rounded-2xl px-2'>Delete</button>
+
+          </div>
+        </div>
+
+        })}
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
   )
 }
 
