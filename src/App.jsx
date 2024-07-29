@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { v4 as uuidv4 } from 'uuid';
-
+import React from 'react'
+import { MdOutlineEdit } from "react-icons/md";
 
 
 
@@ -16,7 +17,7 @@ function App() {
 
 
 
-
+  
 
 
   const handleinput=(e)=>{
@@ -33,6 +34,7 @@ function App() {
 
     settodo("")
     
+  
     
 
 
@@ -41,6 +43,7 @@ function App() {
   }
 
   const  handlecheckbox=(iden)=>{
+
     let a=iden.target.name;
     const result=todos.forEach((item,index)=>{
       if(item.id==a){
@@ -48,6 +51,8 @@ function App() {
           item.isComplete=false
           
           setCount(count+1)
+
+
           
           
         }
@@ -66,7 +71,7 @@ function App() {
       
 
     })
-    
+   
     
   }
 
@@ -74,7 +79,45 @@ function App() {
 
 const handledelete=(e,id)=>{
 
+  if(window.confirm("Are you Sure to delete?")){
+
+  }
+  else{
+    return false;
+    
+  }
+
   
+  
+  
+  
+  let newtodo=todos.filter((item)=>{
+    return item.id!=id
+    
+  })
+  
+  
+  
+  
+  
+  settodos(newtodo)
+ 
+ 
+}
+
+
+
+const handleEdit =(e,id)=>{
+  let newtodo=todos.filter((item)=>{
+    return item.id!=id
+  
+  })
+  // console.log(newtodo)
+  settodo(e.target.name);
+  settodos(newtodo)
+
+
+
 
 }
 
@@ -85,9 +128,8 @@ const handledelete=(e,id)=>{
 
 
 
-
   return (
-    <div className="div  h-screen flex flex-col">
+    <div className="div w-screen   md:h-screen flex flex-col">
       
     
       <nav className='p-6 bg-stone-400 flex justify-center'>
@@ -98,7 +140,7 @@ const handledelete=(e,id)=>{
       </nav>
      
 
-      <div className="container min-h-96 w-[70%] mx-auto mt-7  rounded-3xl bg-white p-6 flex flex-col items-center">
+      <div className="container min-h-96 w-screen md:w-[70%] md:mx-auto md:mt-0 mt-7  rounded-3xl bg-white p-6 flex flex-col items-center border   ">
 
 
 
@@ -112,24 +154,62 @@ const handledelete=(e,id)=>{
 
 
 
+     {/* no todos to display */}
+
+    
+      {todos.length==0 && <div>
+        
+          <h1 className='font-bold text-2xl  h-72 flex justify-center items-center opacity-50'>NO TODOS HERE</h1>
+
+        </div>}
+
+
+
+
+
+
+
+
+
+
+
+
+
         {/* task */}
 
         {todos.map((e)=>{
 
-        return <div key={e.id} className="task p-3 border mt-5 w-3/4 flex justify-between rounded-2xl">
+
+        return(
+          <>
+          
+
+        
+        <div key={e.id} className="task p-3 border mt-5 w-screen md:w-3/4 flex justify-between rounded-2xl items-center relative">
+          
+
+
           <input name={e.id} type="checkbox" onChange={handlecheckbox} />
-          <span className={e.isComplete?"line-through":""}>{e.todo}</span>
+        
+
+          <div className="text flex flex-wrap borde w-1/2 justify-center ">
+
+          <span className={e.isComplete?"line-through":""}>{e.todo} and </span>
+          
+          </div>
           
 
 
           <div className="function space-x-4">
-          <button className='py-1 bg-blue-300 rounded-2xl px-2'>Edit</button>
+          <button className='py-1 bg-blue-300 rounded-2xl px-2' onClick={(item)=>handleEdit(item,e.id)} name={e.todo}>Edit</button>
           <button className='py-1 bg-blue-300 rounded-2xl px-2' name={e.id} onClick={(item)=>handledelete(item,e.id)}>Delete</button>
+          
 
           </div>
         </div>
 
-        })}
+        </> 
+        )})}
 
       </div>
       </div>
