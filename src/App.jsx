@@ -16,27 +16,24 @@
     const [todo,settodo]=useState("")
     const [todos,settodos]=useState([])
     const [showfinished,setshowfinished]=useState(false);
-    const [novalue,setnovalue]=useState("")
-
-
-    useEffect(() => {
-      // Retrieve todos from local storage
-      const storedTodos = JSON.parse(localStorage.getItem('todos'));
-      if (storedTodos) {
-        settodos(storedTodos);
-      }
-    }, []);
-  
-    useEffect(() => {
-      // Save todos to local storage whenever the todos state changes
-      localStorage.setItem('todos', JSON.stringify(todos));
-    }, [todos]);
-  
     
 
-    
-    
 
+    
+    useEffect(()=>{
+      let value=JSON.parse(localStorage.getItem("key"));
+
+      settodos(value)
+
+
+    },[])
+    
+    const save=()=>{
+      let string=localStorage.setItem("key",JSON.stringify(todos));
+
+
+
+    }
 
     const handleinput=(e)=>{
       settodo(e.target.value)
@@ -52,6 +49,8 @@
       settodos([...todos,{todo,id:uuidv4(),isComplete:false}]) 
 
       settodo("")
+      save();
+
       
       
       
@@ -75,6 +74,8 @@
             setCount(count+1)
 
 
+
+
             
             
           }
@@ -93,7 +94,8 @@
         
 
       })
-    
+      save();
+
       
     }
 
@@ -125,7 +127,7 @@
     
     settodos(newtodo)
   
-  
+    save()
   }
 
 
@@ -152,7 +154,7 @@
   
 
     
-
+    save()
 
 
 
@@ -163,7 +165,7 @@
 
     setshowfinished(!showfinished)
 
-
+    save()
 
   }
 
@@ -200,7 +202,7 @@
 
         
           <div className="div flex gap-3 mt-2 ">
-              <input type="checkbox" checked={showfinished} onClick={tooglechecked}  />
+              <input type="checkbox" checked={showfinished} onChange={tooglechecked}  />
               <div className="div">
                 showfinished
               </div>
